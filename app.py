@@ -73,7 +73,24 @@ discount_rate = 0.05
 # === Page title and intro ===
 st.title(T["title"])
 content_mode = st.sidebar.radio(T["content_option"], [T["develop"], T["license"]])
-st.markdown(T["intro"])
+col1, col2 = st.columns(2)
+with col1:
+    st.markdown("""
+    ### 🛠️ Custom Development
+    - Tailored VR module just for your needs
+    - One-time content development: **€45,000**
+    - Annual update & maintenance: **€10,000**
+    - License per headset/year: **€200**
+    """)
+with col2:
+    st.markdown("""
+    ### 📦 License Only
+    - Access to existing VR modules (e.g., solar)
+    - No dev or update fees
+    - License per headset/year: **€300**
+    """)
+
+st.markdown("---")
 
 # === Sidebar inputs ===
 st.sidebar.header(T["inputs"])
