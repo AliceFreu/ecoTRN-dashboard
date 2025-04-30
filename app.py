@@ -53,10 +53,10 @@ Diese Analyse richtet sich an Bildungseinrichtungen, Ministerien oder NGOs, die 
         "days": "Anzahl Schulungstage (klassisch)",
         "trainer": "Tagessatz Trainer:in (EUR)",
         "room": "Raumkosten pro Tag (EUR)",
-        "travel": "Reisekosten pro Person (klassisch, EUR)",
+        "travel": "Reisekosten pro Person (EUR)",
         "hardware": "Hardwarekosten VR-Headset (einmalig, EUR)",
         "license": "Monatliche Lizenzkosten pro Headset (EUR)",
-        "hosting": "Hostingkosten pauschal/Monat (optional, EUR)",
+        "hosting": "Hostingkosten pro Monat (optional, EUR)",
         "duration": "Trainingsdauer in Monaten (VR)",
         "years": "Betrachtungszeitraum (Jahre)",
         "results": "Ergebnisse im Vergleich",
@@ -79,17 +79,17 @@ st.markdown(T["intro"])
 st.sidebar.header(T["inputs"])
 num_learners = st.sidebar.number_input(T["participants"], min_value=1, value=100)
 training_days = st.sidebar.number_input(T["days"], min_value=1, value=2)
-trainer_rate = st.sidebar.number_input(T["trainer"], min_value=0.0, value=1000.0, step=100.0)
-room_cost = st.sidebar.number_input(T["room"], min_value=0.0, value=300.0, step=50.0)
-travel_cost = st.sidebar.number_input(T["travel"], min_value=0.0, value=100.0, step=10.0)
+trainer_rate = st.sidebar.number_input(T["trainer"], min_value=0.0, value=1000.0)
+room_cost = st.sidebar.number_input(T["room"], min_value=0.0, value=300.0)
+travel_cost = st.sidebar.number_input(T["travel"], min_value=0.0, value=100.0)
 
-headset_cost = st.sidebar.number_input(T["hardware"], min_value=0.0, value=500.0, step=50.0)
-monthly_license = st.sidebar.number_input(T["license"], min_value=0.0, value=65.0, step=5.0)
-monthly_hosting = st.sidebar.number_input(T["hosting"], min_value=0.0, value=50.0, step=10.0)
+headset_cost = st.sidebar.number_input(T["hardware"], min_value=0.0, value=500.0)
+monthly_license = st.sidebar.number_input(T["license"], min_value=0.0, value=65.0)
+monthly_hosting = st.sidebar.number_input(T["hosting"], min_value=0.0, value=50.0)
 vr_duration = st.sidebar.number_input(T["duration"], min_value=1, value=3)
 evaluation_years = st.sidebar.number_input(T["years"], min_value=1, value=5)
 
-# === Calculations ===
+# === Cost calculations ===
 classic_annual_cost = ((trainer_rate + room_cost) * training_days) + (travel_cost * num_learners)
 classic_cumulative = [classic_annual_cost * (i + 1) for i in range(evaluation_years)]
 
@@ -98,7 +98,7 @@ license_annual = monthly_license * num_learners * 12
 hosting_annual = monthly_hosting * 12
 vr_annual = license_annual + hosting_annual
 
-# VR cost: only includes hardware in year 1
+# Correct VR cumulative: hardware only in year 1
 vr_cumulative = []
 for i in range(1, evaluation_years + 1):
     if i == 1:
@@ -109,7 +109,6 @@ for i in range(1, evaluation_years + 1):
 
 # === Results ===
 st.header(T["results"])
-
 total_classic = classic_cumulative[-1]
 total_vr = vr_cumulative[-1]
 savings = total_classic - total_vr
@@ -122,8 +121,8 @@ col3.metric(T["savings"].format(years=evaluation_years), f"{savings:,.0f} EUR", 
 # === Plot 1: Cumulative cost comparison ===
 years = list(range(1, evaluation_years + 1))
 fig1, ax1 = plt.subplots()
-ax1.plot(years, vr_cumulative, label='Cumulative VR Cost (€)')
-ax1.plot(years, classic_cumulative, label='Cumulative Traditional Cost (€)')
+ax1.plot(years, vr_cumulative, label='Cumulative VR Cost (€)', color='green')
+ax1.plot(years, classic_cumulative, label='Cumulative Traditional Cost (€)', color='blue')
 ax1.set_xlabel('Year')
 ax1.set_ylabel('Cumulative Cost (€)')
 ax1.set_title(T["chart_title1"])
@@ -132,9 +131,9 @@ st.pyplot(fig1)
 
 # === Plot 2: Annual cost comparison ===
 fig2, ax2 = plt.subplots()
-ax2.bar(years, [classic_annual_cost] * evaluation_years, label='Traditional Costs (€)')
 vr_annual_series = [hardware_total + vr_annual] + [vr_annual] * (evaluation_years - 1)
-ax2.bar(years, vr_annual_series, label='VR Costs (€)', width=0.5)
+ax2.bar(years, [classic_annual_cost] * evaluation_years, label='Traditional Costs (€)', color='blue')
+ax2.bar(years, vr_annual_series, label='VR Costs (€)', width=0.5, color='green')
 ax2.set_xlabel('Year')
 ax2.set_ylabel('Cost (€)')
 ax2.set_title(T["chart_title2"].format(anzahl=num_learners))
