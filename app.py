@@ -15,7 +15,19 @@ text = {
         "title": "ecoTRN Scenario Analysis",
         "intro": """Welcome to our training cost scenario analysis! 👋
 
-This tool allows you to compare the cost of traditional in-person training with our VR-based solution...""",
+This dashboard allows you to compare the cost of traditional in-person training with our VR-based solution.
+
+➡️ On the **left side**, you can enter your own assumptions – such as number of learners, cost of trainers or rooms, and hardware expenses.
+
+➡️ Based on your selection (custom development or licensing), the model calculates all relevant costs over a multi-year period.
+
+📊 The results will show you:
+- Total and annual costs for each model
+- Cost per learner
+- Savings through VR
+- Payback period and NPV
+
+Scroll down to explore the interactive visualizations and see how ecoTRN can make your training more cost-efficient.""",
         "inputs": "Your Inputs",
         "participants": "Number of learners per year",
         "days": "Number of training days (traditional)",
@@ -45,7 +57,19 @@ This tool allows you to compare the cost of traditional in-person training with 
         "title": "ecoTRN Szenario-Analyse",
         "intro": """Willkommen bei unserer Kostenanalyse! 👋
 
-Dieses Tool hilft Ihnen, die Kosten von Präsenztrainings mit unserer VR-basierten Lösung für Techniker:innen zu vergleichen...""",
+Dieses Dashboard hilft Ihnen, die Kosten eines klassischen Präsenztrainings mit unserer VR-basierten Lösung zu vergleichen.
+
+➡️ Auf der **linken Seite** können Sie Ihre eigenen Annahmen eingeben – etwa zur Anzahl der Teilnehmenden, Trainerkosten, Raumkosten oder Hardware.
+
+➡️ Je nachdem, ob Sie eine individuelle Entwicklung oder ein bestehendes Modul lizenzieren, berechnet das Modell alle relevanten Kosten über mehrere Jahre.
+
+📊 Die Ergebnisse zeigen Ihnen:
+- Gesamtkosten und jährliche Kosten
+- Kosten pro Teilnehmer:in
+- Ersparnis durch VR
+- Amortisationszeitraum und Barwert (NPV)
+
+Scrollen Sie nach unten, um die interaktiven Visualisierungen zu entdecken und zu sehen, wie ecoTRN Ihr Training effizienter macht.""",
         "inputs": "Ihre Eingaben",
         "participants": "Anzahl der Lernenden pro Jahr",
         "days": "Anzahl der Trainingstage (klassisch)",
