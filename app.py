@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+st.set_page_config(page_title="ecoTRN Scenario Analysis", layout="centered")
+
 # === Spracheinstellung ===
 language = st.sidebar.selectbox("Sprache / Language", ["Deutsch", "English"])
 
@@ -70,7 +72,6 @@ This tool is designed for institutions, ministries, and NGOs looking for scalabl
 T = text[language]  # shortcut
 
 # === App Titel und Einleitung ===
-st.set_page_config(page_title=T["title"], layout="centered")
 st.title(T["title"])
 st.markdown(T["intro"])
 
