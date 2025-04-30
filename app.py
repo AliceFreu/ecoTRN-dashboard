@@ -10,103 +10,7 @@ st.set_page_config(page_title="ecoTRN Scenario Analysis", layout="centered")
 language = st.sidebar.selectbox("Language", ["English", "Deutsch"])
 
 # === Translations ===
-text = {
-    "English": {
-        "title": "ecoTRN Scenario Analysis",
-        "intro": """
-Welcome to our training cost scenario analysis! 👋
-
-This tool allows you to compare the cost of traditional in-person training with our VR-based solution for renewable energy technicians.
-
-Please start by selecting one of the following options:
-
-### 📦 License Only
-- Access to **existing VR modules** (e.g., solar installation)
-- **Annual license per headset: €300**
-- **No development or update costs**
-
-### 🛠️ Custom Development
-- We develop a **tailored VR training module** for your needs
-- **One-time content development: €45,000**
-- **Annual update & maintenance: €10,000**
-- **Annual license per headset: €200**
-
-This selection will influence the calculation below.
-""",
-        "inputs": "Your Inputs",
-        "participants": "Number of learners per year",
-        "days": "Number of training days (traditional)",
-        "trainer": "Trainer daily rate (€)",
-        "room": "Room cost per day (€)",
-        "travel": "Travel cost per person (€)",
-        "hardware": "VR headset cost (€)",
-        "utilization": "Learners per headset per year",
-        "consumables": "Consumables per learner (traditional, €)",
-        "years": "Evaluation period (years)",
-        "group_size": "Learners per traditional training group",
-        "content_option": "Select your training model:",
-        "develop": "Custom development by ecoTRN",
-        "license": "License existing module",
-        "results": "Results Comparison",
-        "total_classic": "Total Traditional Cost",
-        "total_vr": "Total VR Cost",
-        "savings": "Savings over {years} Years",
-}
-        
-    "Deutsch": {
-        "title": "ecoTRN Szenario-Analyse",
-        "intro": """
-Willkommen bei unserer Kostenanalyse! 👋
-
-Dieses Tool hilft Ihnen, die Kosten von Präsenztrainings mit unserer VR-basierten Lösung für Techniker:innen im Bereich erneuerbare Energien zu vergleichen.
-
-Bitte wählen Sie zu Beginn eines der folgenden Modelle:
-
-### 📦 Nur Lizenzierung
-- Zugriff auf **bestehende VR-Module** (z. B. Solaranlagen-Montage)
-- **Jährliche Lizenz pro Headset: 300 €**
-- **Keine Entwicklungs- oder Updatekosten**
-
-### 🛠️ Individuelle Entwicklung
-- Wir entwickeln ein **maßgeschneidertes VR-Trainingsmodul** für Sie
-- **Einmalige Entwicklungskosten: 45.000 €**
-- **Jährliches Update & Wartung: 10.000 €**
-- **Jährliche Lizenz pro Headset: 200 €**
-
-Diese Auswahl beeinflusst die Kostenkalkulation darunter.
-""",
-        "inputs": "Ihre Eingaben",
-        "participants": "Anzahl der Lernenden pro Jahr",
-        "days": "Anzahl der Trainingstage (klassisch)",
-        "trainer": "Tagessatz Trainer:in (€)",
-        "room": "Raumkosten pro Tag (€)",
-        "travel": "Reise- & Unterkunftskosten pro Person (€)",
-        "hardware": "Kosten VR-Headset (€)",
-        "utilization": "Lernende pro Headset pro Jahr",
-        "consumables": "Verbrauchsmaterialien pro Lernenden (€)",
-        "years": "Betrachtungszeitraum (Jahre)",
-        "group_size": "Lernende pro Präsenzgruppe",
-        "content_option": "Wählen Sie Ihr Trainingsmodell:",
-        "develop": "Individuelle Entwicklung durch ecoTRN",
-        "license": "Vorhandenes Modul lizenzieren",
-        "results": "Kostenvergleich",
-        "total_classic": "Gesamtkosten Präsenztraining",
-        "total_vr": "Gesamtkosten VR-Training",
-        "savings": "Ersparnis über {years} Jahre",
-        "cost_per_learner": "Kosten pro Lernenden (gesamt)",
-        "npv_label": "Barwert (NPV) des VR-Modells",
-        "payback_label": "Break-even im Jahr",
-        "chart_title1": "Kumulative Trainingskosten (ROI-Sicht)",
-        "chart_title2": "Jährlicher Kostenvergleich – {anzahl} Lernende/Jahr",
-        "footer": "Diese Analyse basiert auf Annahmen typischer Trainingskosten und simuliert ROI bei Skalierung.",
-        "cost_per_learner": "Cost per Learner (Total)",
-        "npv_label": "Net Present Value (NPV) of VR",
-        "payback_label": "Payback Year",
-        "chart_title1": "Cumulative Training Cost (ROI View)",
-        "chart_title2": "Annual Training Costs Comparison - {anzahl} Learners/Year",
-        "footer": "This analysis is based on standard training cost assumptions and simulates ROI at scale."
-    }
-}
+text = { ... }  # Use your existing translation dictionary here
 
 T = text[language]
 
@@ -120,9 +24,11 @@ discount_rate = 0.05
 
 # === Page title and intro ===
 st.title(T["title"])
-intro_paragraph = T["intro"].split("Please start by selecting")[0]
+intro_paragraph = T["intro"].split("Please start by selecting")[0] if language == "English" else T["intro"].split("Bitte wählen Sie zu Beginn")[0]
 st.markdown(intro_paragraph)
+
 content_mode = st.sidebar.radio(T["content_option"], [T["develop"], T["license"]])
+
 col1, col2 = st.columns(2)
 with col1:
     st.markdown("""
@@ -149,7 +55,6 @@ training_days = st.sidebar.number_input(T["days"], min_value=1, value=2)
 trainer_rate = st.sidebar.number_input(T["trainer"], min_value=0.0, value=300.0)
 room_cost = st.sidebar.number_input(T["room"], min_value=0.0, value=200.0)
 travel_cost = st.sidebar.number_input(T["travel"], min_value=0.0, value=100.0)
-
 headset_cost = st.sidebar.number_input(T["hardware"], min_value=0.0, value=500.0)
 learners_per_headset = st.sidebar.number_input(T["utilization"], min_value=1, value=5)
 consumables = st.sidebar.number_input(T["consumables"], min_value=0.0, value=70.0)
@@ -187,7 +92,6 @@ payback_year = next((i + 1 for i, (vc, tc) in enumerate(zip(vr_cumulative, class
 
 # === Results ===
 st.header(T["results"])
-
 total_classic = classic_cumulative[-1]
 total_vr = vr_cumulative[-1]
 savings = total_classic - total_vr
@@ -203,7 +107,7 @@ st.markdown(f"- VR: {total_vr / (num_learners * evaluation_years):,.0f}" + (" EU
 
 st.markdown(f"**{T['npv_label']}:** {npv_vr:,.0f}" + (" EUR" if language == "English" else " €"))
 if payback_year:
-    st.markdown(f"**{T['payback_label']}:** Year {payback_year}")
+    st.markdown(f"**{T['payback_label']}:** Year {payback_year}" if language == "English" else f"**{T['payback_label']}:** Jahr {payback_year}")
 
 # === Plot 1: Cumulative cost comparison ===
 years = list(range(1, evaluation_years + 1))
