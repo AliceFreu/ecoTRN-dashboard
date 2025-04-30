@@ -28,15 +28,13 @@ This tool is designed for institutions, ministries, and NGOs looking for scalabl
         "room": "Room cost per day (€)",
         "travel": "Travel cost per person (€)",
         "hardware": "VR headset cost (€)",
-        "license": "VR license cost per year (€)",
-        "content": "VR content development cost (one-time, €)",
-        "update": "VR content update cost per year (€)",
-        "lifespan": "Headset lifespan (years)",
         "utilization": "Learners per headset per year",
         "consumables": "Consumables per learner (traditional, €)",
         "years": "Evaluation period (years)",
         "group_size": "Learners per traditional training group",
-        "discount": "Discount rate (for NPV)",
+        "content_option": "Do you want to develop custom VR content or only license an existing module?",
+        "develop": "We develop it for you",
+        "license": "We only license it",
         "results": "Results Comparison",
         "total_classic": "Total Traditional Cost",
         "total_vr": "Total VR Cost",
@@ -52,6 +50,14 @@ This tool is designed for institutions, ministries, and NGOs looking for scalabl
 
 T = text[language]
 
+# === Fixed Parameters ===
+headset_lifespan = 5
+vr_license_only = 300
+vr_license_custom = 200
+vr_content_cost = 45000
+vr_update_cost = 10000
+discount_rate = 0.05
+
 # === Page title and intro ===
 st.title(T["title"])
 st.markdown(T["intro"])
@@ -65,15 +71,22 @@ room_cost = st.sidebar.number_input(T["room"], min_value=0.0, value=200.0)
 travel_cost = st.sidebar.number_input(T["travel"], min_value=0.0, value=100.0)
 
 headset_cost = st.sidebar.number_input(T["hardware"], min_value=0.0, value=500.0)
-vr_license = st.sidebar.number_input(T["license"], min_value=0.0, value=300.0)
-vr_content = st.sidebar.number_input(T["content"], min_value=0.0, value=50000.0)
-vr_update = st.sidebar.number_input(T["update"], min_value=0.0, value=10000.0)
-headset_lifespan = st.sidebar.number_input(T["lifespan"], min_value=1, value=5)
 learners_per_headset = st.sidebar.number_input(T["utilization"], min_value=1, value=5)
 consumables = st.sidebar.number_input(T["consumables"], min_value=0.0, value=70.0)
 evaluation_years = st.sidebar.number_input(T["years"], min_value=1, value=5)
 group_size = st.sidebar.number_input(T["group_size"], min_value=1, value=15)
-discount_rate = st.sidebar.number_input(T["discount"], min_value=0.0, value=0.05, step=0.01)
+
+content_mode = st.sidebar.radio(T["content_option"], [T["develop"], T["license"]])
+
+# === Assign cost values based on content mode ===
+if content_mode == T["develop"]:
+    vr_license = vr_license_custom
+    vr_content = vr_content_cost
+    vr_update = vr_update_cost
+else:
+    vr_license = vr_license_only
+    vr_content = 0
+    vr_update = 0
 
 # === Traditional training cost calculation ===
 num_groups = math.ceil(num_learners / group_size)
