@@ -97,7 +97,7 @@ Diese Auswahl beeinflusst die Kostenkalkulation darunter.
         "payback_label": "Break-even im Jahr",
         "chart_title1": "Kumulative Trainingskosten (ROI-Sicht)",
         "chart_title2": "Jährlicher Kostenvergleich – {anzahl} Lernende/Jahr",
-        "footer": "Diese Analyse basiert auf Annahmen typischer Trainingskosten und simuliert ROI bei Skalierung." Years",
+        "footer": "Diese Analyse basiert auf Annahmen typischer Trainingskosten und simuliert ROI bei Skalierung.",
         "cost_per_learner": "Cost per Learner (Total)",
         "npv_label": "Net Present Value (NPV) of VR",
         "payback_label": "Payback Year",
