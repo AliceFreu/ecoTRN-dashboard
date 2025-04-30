@@ -16,10 +16,15 @@ text = {
         "intro": """
 Welcome to our training cost scenario analysis! 👋
 
-Here you can input your current training costs for traditional in-person programs and compare them to our VR-based training solution at **ecoTRN**.
-We show you at a glance how much you can save with scalable, location-independent Virtual Reality learning – both **in total** and **per trainee**.
+This tool allows you to compare the cost of traditional in-person training with our VR-based solution for renewable energy technicians.
 
-This tool is designed for institutions, ministries, and NGOs looking for scalable training solutions in the renewable energy sector.
+Before entering training-specific parameters, please choose whether you:
+- **Only license** existing ecoTRN training modules (e.g. pre-developed solar content), or
+- **Commission us to develop** a customized VR module for your needs.
+
+Depending on your choice, we apply the following assumptions:
+- **License Only:** Annual license per headset = €300, no development or update costs.
+- **Custom Development:** One-time content development = €45,000, annual update = €10,000, license = €200 per headset/year.
 """,
         "inputs": "Your Inputs",
         "participants": "Number of learners per year",
@@ -32,9 +37,9 @@ This tool is designed for institutions, ministries, and NGOs looking for scalabl
         "consumables": "Consumables per learner (traditional, €)",
         "years": "Evaluation period (years)",
         "group_size": "Learners per traditional training group",
-        "content_option": "Do you want to develop custom VR content or only license an existing module?",
-        "develop": "We develop it for you",
-        "license": "We only license it",
+        "content_option": "Select your training model:",
+        "develop": "Custom development by ecoTRN",
+        "license": "License existing module",
         "results": "Results Comparison",
         "total_classic": "Total Traditional Cost",
         "total_vr": "Total VR Cost",
@@ -60,6 +65,7 @@ discount_rate = 0.05
 
 # === Page title and intro ===
 st.title(T["title"])
+content_mode = st.sidebar.radio(T["content_option"], [T["develop"], T["license"]])
 st.markdown(T["intro"])
 
 # === Sidebar inputs ===
@@ -75,8 +81,6 @@ learners_per_headset = st.sidebar.number_input(T["utilization"], min_value=1, va
 consumables = st.sidebar.number_input(T["consumables"], min_value=0.0, value=70.0)
 evaluation_years = st.sidebar.number_input(T["years"], min_value=1, value=5)
 group_size = st.sidebar.number_input(T["group_size"], min_value=1, value=15)
-
-content_mode = st.sidebar.radio(T["content_option"], [T["develop"], T["license"]])
 
 # === Assign cost values based on content mode ===
 if content_mode == T["develop"]:
