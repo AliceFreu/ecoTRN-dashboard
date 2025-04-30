@@ -51,7 +51,8 @@ This selection will influence the calculation below.
         "total_classic": "Total Traditional Cost",
         "total_vr": "Total VR Cost",
         "savings": "Savings over {years} Years",
-
+}
+        
     "Deutsch": {
         "title": "ecoTRN Szenario-Analyse",
         "intro": """
