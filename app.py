@@ -27,10 +27,13 @@ This tool is designed for institutions, ministries, and NGOs looking for scalabl
         "trainer": "Trainer daily rate (€)",
         "room": "Room cost per day (€)",
         "travel": "Travel cost per person (€)",
-        "hardware": "VR headset cost (one-time, €)",
-        "license": "Monthly license cost per headset (€)",
-        "hosting": "Hosting cost per month (optional, €)",
-        "duration": "VR training duration (months)",
+        "hardware": "VR headset cost (€)",
+        "license": "VR license cost per year (€)",
+        "content": "VR content development cost (one-time, €)",
+        "update": "VR content update cost per year (€)",
+        "lifespan": "Headset lifespan (years)",
+        "utilization": "Learners per headset per year",
+        "consumables": "Consumables per learner (traditional, €)",
         "years": "Evaluation period (years)",
         "group_size": "Learners per traditional training group",
         "results": "Results Comparison",
@@ -41,37 +44,6 @@ This tool is designed for institutions, ministries, and NGOs looking for scalabl
         "chart_title1": "Cumulative Training Cost (ROI View)",
         "chart_title2": "Annual Training Costs Comparison - {anzahl} Learners/Year",
         "footer": "This analysis is based on standard training cost assumptions and simulates ROI at scale."
-    },
-    "Deutsch": {
-        "title": "ecoTRN Szenario-Analyse",
-        "intro": """
-Willkommen bei unserer Szenario-Analyse für Trainingskosten! 👋
-
-Hier können Sie Ihre aktuellen Trainingskosten mit klassischem Präsenztraining eingeben und mit unserer VR-Lösung von **ecoTRN** vergleichen.
-Wir zeigen Ihnen auf einen Blick, wie viel Sie durch skalierbares, ortsunabhängiges Lernen mit Virtual Reality sparen können – sowohl **gesamt**, als auch **pro Teilnehmer:in**.
-
-Diese Analyse richtet sich an Bildungseinrichtungen, Ministerien oder NGOs, die skalierbare Lösungen zur Aus- und Weiterbildung im Bereich erneuerbarer Energien benötigen.
-""",
-        "inputs": "Deine Eingaben",
-        "participants": "Anzahl der Teilnehmer:innen pro Jahr",
-        "days": "Anzahl Schulungstage (klassisch)",
-        "trainer": "Tagessatz Trainer:in (EUR)",
-        "room": "Raumkosten pro Tag (EUR)",
-        "travel": "Reisekosten pro Person (EUR)",
-        "hardware": "Hardwarekosten VR-Headset (einmalig, EUR)",
-        "license": "Monatliche Lizenzkosten pro Headset (EUR)",
-        "hosting": "Hostingkosten pro Monat (optional, EUR)",
-        "duration": "Trainingsdauer in Monaten (VR)",
-        "years": "Betrachtungszeitraum (Jahre)",
-        "group_size": "Teilnehmer:innen pro Schulungsgruppe (klassisch)",
-        "results": "Ergebnisse im Vergleich",
-        "total_classic": "Gesamtkosten Klassisch",
-        "total_vr": "Gesamtkosten VR",
-        "savings": "Ersparnis in {years} Jahren",
-        "cost_per_learner": "Kosten pro Teilnehmer:in (Gesamt)",
-        "chart_title1": "Kumulative Trainingskosten (ROI-Sicht)",
-        "chart_title2": "Jährlicher Kostenvergleich - {anzahl} Lernende/Jahr",
-        "footer": "Diese Analyse basiert auf typischen Annahmen für Trainingskosten und simuliert ROI bei skalierter Nutzung."
     }
 }
 
@@ -90,27 +62,29 @@ room_cost = st.sidebar.number_input(T["room"], min_value=0.0, value=300.0)
 travel_cost = st.sidebar.number_input(T["travel"], min_value=0.0, value=100.0)
 
 headset_cost = st.sidebar.number_input(T["hardware"], min_value=0.0, value=500.0)
-monthly_license = st.sidebar.number_input(T["license"], min_value=0.0, value=65.0)
-monthly_hosting = st.sidebar.number_input(T["hosting"], min_value=0.0, value=50.0)
-vr_duration = st.sidebar.number_input(T["duration"], min_value=1, value=3)
+vr_license = st.sidebar.number_input(T["license"], min_value=0.0, value=300.0)
+vr_content = st.sidebar.number_input(T["content"], min_value=0.0, value=50000.0)
+vr_update = st.sidebar.number_input(T["update"], min_value=0.0, value=10000.0)
+headset_lifespan = st.sidebar.number_input(T["lifespan"], min_value=1, value=5)
+learners_per_headset = st.sidebar.number_input(T["utilization"], min_value=1, value=5)
+consumables = st.sidebar.number_input(T["consumables"], min_value=0.0, value=70.0)
 evaluation_years = st.sidebar.number_input(T["years"], min_value=1, value=5)
 group_size = st.sidebar.number_input(T["group_size"], min_value=1, value=10)
 
-# === Cost calculations ===
+# === Traditional training cost calculation ===
 num_groups = math.ceil(num_learners / group_size)
-classic_annual_cost = ((trainer_rate + room_cost) * training_days * num_groups) + (travel_cost * num_learners)
+classic_annual_cost = ((trainer_rate + room_cost) * training_days * num_groups) + (travel_cost * num_learners) + (consumables * num_learners)
 classic_cumulative = [classic_annual_cost * (i + 1) for i in range(evaluation_years)]
 
-hardware_total = headset_cost * num_learners
-license_annual = monthly_license * num_learners * vr_duration
-hosting_annual = monthly_hosting * vr_duration
-vr_annual = license_annual + hosting_annual
+# === VR training cost calculation ===
+headsets_needed = math.ceil(num_learners / learners_per_headset)
+annual_headset_cost = (headset_cost * headsets_needed) / headset_lifespan
+vr_annual = annual_headset_cost + (vr_license * headsets_needed) + vr_update
 
-# VR cumulative cost with hardware only in year 1
 vr_cumulative = []
 for i in range(1, evaluation_years + 1):
     if i == 1:
-        total = hardware_total + vr_annual
+        total = vr_content + vr_annual
     else:
         total = vr_cumulative[-1] + vr_annual
     vr_cumulative.append(total)
@@ -145,7 +119,7 @@ st.pyplot(fig1)
 # === Plot 2: Annual cost comparison ===
 x = np.arange(evaluation_years)
 bar_width = 0.4
-vr_annual_series = [hardware_total + vr_annual] + [vr_annual] * (evaluation_years - 1)
+vr_annual_series = [vr_content + vr_annual] + [vr_annual] * (evaluation_years - 1)
 fig2, ax2 = plt.subplots()
 ax2.bar(x, [classic_annual_cost] * evaluation_years, label='Traditional Costs (€)', color='blue', width=bar_width)
 ax2.bar(x + bar_width, vr_annual_series, label='VR Costs (€)', color='green', width=bar_width)
