@@ -36,11 +36,14 @@ This tool is designed for institutions, ministries, and NGOs looking for scalabl
         "consumables": "Consumables per learner (traditional, €)",
         "years": "Evaluation period (years)",
         "group_size": "Learners per traditional training group",
+        "discount": "Discount rate (for NPV)",
         "results": "Results Comparison",
         "total_classic": "Total Traditional Cost",
         "total_vr": "Total VR Cost",
         "savings": "Savings over {years} Years",
         "cost_per_learner": "Cost per Learner (Total)",
+        "npv_label": "Net Present Value (NPV) of VR",
+        "payback_label": "Payback Year",
         "chart_title1": "Cumulative Training Cost (ROI View)",
         "chart_title2": "Annual Training Costs Comparison - {anzahl} Learners/Year",
         "footer": "This analysis is based on standard training cost assumptions and simulates ROI at scale."
@@ -70,6 +73,7 @@ learners_per_headset = st.sidebar.number_input(T["utilization"], min_value=1, va
 consumables = st.sidebar.number_input(T["consumables"], min_value=0.0, value=70.0)
 evaluation_years = st.sidebar.number_input(T["years"], min_value=1, value=5)
 group_size = st.sidebar.number_input(T["group_size"], min_value=1, value=15)
+discount_rate = st.sidebar.number_input(T["discount"], min_value=0.0, value=0.05, step=0.01)
 
 # === Traditional training cost calculation ===
 num_groups = math.ceil(num_learners / group_size)
@@ -78,16 +82,17 @@ classic_cumulative = [classic_annual_cost * (i + 1) for i in range(evaluation_ye
 
 # === VR training cost calculation ===
 headsets_needed = math.ceil(num_learners / learners_per_headset)
-annual_headset_cost = (headset_cost * headsets_needed) / headset_lifespan
-vr_annual = annual_headset_cost + (vr_license * headsets_needed) + vr_update
+total_headset_cost = headset_cost * headsets_needed
+annual_headset_cost = total_headset_cost / headset_lifespan
+vr_license_cost_total = vr_license * headsets_needed
+vr_annual = annual_headset_cost + vr_license_cost_total + vr_update
 
-vr_cumulative = []
-for i in range(1, evaluation_years + 1):
-    if i == 1:
-        total = vr_content + vr_annual
-    else:
-        total = vr_cumulative[-1] + vr_annual
-    vr_cumulative.append(total)
+vr_annual_series = [vr_content + vr_annual] + [vr_annual] * (evaluation_years - 1)
+vr_cumulative = [sum(vr_annual_series[:i + 1]) for i in range(evaluation_years)]
+
+# === NPV and Payback calculation ===
+npv_vr = sum(v / (1 + discount_rate) ** (i + 1) for i, v in enumerate(vr_annual_series))
+payback_year = next((i + 1 for i, (vc, tc) in enumerate(zip(vr_cumulative, classic_cumulative)) if vc < tc), None)
 
 # === Results ===
 st.header(T["results"])
@@ -105,6 +110,10 @@ st.markdown(f"**{T['cost_per_learner']}:**")
 st.markdown(f"- Traditional: {total_classic / (num_learners * evaluation_years):,.0f} EUR")
 st.markdown(f"- VR: {total_vr / (num_learners * evaluation_years):,.0f} EUR")
 
+st.markdown(f"**{T['npv_label']}:** {npv_vr:,.0f} EUR")
+if payback_year:
+    st.markdown(f"**{T['payback_label']}:** Year {payback_year}")
+
 # === Plot 1: Cumulative cost comparison ===
 years = list(range(1, evaluation_years + 1))
 fig1, ax1 = plt.subplots()
@@ -119,7 +128,6 @@ st.pyplot(fig1)
 # === Plot 2: Annual cost comparison ===
 x = np.arange(evaluation_years)
 bar_width = 0.4
-vr_annual_series = [vr_content + vr_annual] + [vr_annual] * (evaluation_years - 1)
 fig2, ax2 = plt.subplots()
 ax2.bar(x, [classic_annual_cost] * evaluation_years, label='Traditional Costs (€)', color='blue', width=bar_width)
 ax2.bar(x + bar_width, vr_annual_series, label='VR Costs (€)', color='green', width=bar_width)
