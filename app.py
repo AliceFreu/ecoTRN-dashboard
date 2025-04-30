@@ -10,7 +10,68 @@ st.set_page_config(page_title="ecoTRN Scenario Analysis", layout="centered")
 language = st.sidebar.selectbox("Language", ["English", "Deutsch"])
 
 # === Translations ===
-text = { ... }  # Use your existing translation dictionary here
+text = {
+    "English": {
+        "title": "ecoTRN Scenario Analysis",
+        "intro": "Welcome to our training cost scenario analysis! 👋
+
+This tool allows you to compare the cost of traditional in-person training with our VR-based solution...",
+        "inputs": "Your Inputs",
+        "participants": "Number of learners per year",
+        "days": "Number of training days (traditional)",
+        "trainer": "Trainer daily rate (€)",
+        "room": "Room cost per day (€)",
+        "travel": "Travel cost per person (€)",
+        "hardware": "VR headset cost (€)",
+        "utilization": "Learners per headset per year",
+        "consumables": "Consumables per learner (traditional, €)",
+        "years": "Evaluation period (years)",
+        "group_size": "Learners per traditional training group",
+        "content_option": "Select your training model:",
+        "develop": "Custom development by ecoTRN",
+        "license": "License existing module",
+        "results": "Results Comparison",
+        "total_classic": "Total Traditional Cost",
+        "total_vr": "Total VR Cost",
+        "savings": "Savings over {years} Years",
+        "cost_per_learner": "Cost per Learner (Total)",
+        "npv_label": "Net Present Value (NPV) of VR",
+        "payback_label": "Payback Year",
+        "chart_title1": "Cumulative Training Cost (ROI View)",
+        "chart_title2": "Annual Training Costs Comparison - {anzahl} Learners/Year",
+        "footer": "This analysis is based on standard training cost assumptions and simulates ROI at scale."
+    },
+    "Deutsch": {
+        "title": "ecoTRN Szenario-Analyse",
+        "intro": "Willkommen bei unserer Kostenanalyse! 👋
+
+Dieses Tool hilft Ihnen, die Kosten von Präsenztrainings mit unserer VR-basierten Lösung für Techniker:innen zu vergleichen...",
+        "inputs": "Ihre Eingaben",
+        "participants": "Anzahl der Lernenden pro Jahr",
+        "days": "Anzahl der Trainingstage (klassisch)",
+        "trainer": "Tagessatz Trainer:in (€)",
+        "room": "Raumkosten pro Tag (€)",
+        "travel": "Reise- & Unterkunftskosten pro Person (€)",
+        "hardware": "Kosten VR-Headset (€)",
+        "utilization": "Lernende pro Headset pro Jahr",
+        "consumables": "Verbrauchsmaterialien pro Lernenden (€)",
+        "years": "Betrachtungszeitraum (Jahre)",
+        "group_size": "Lernende pro Präsenzgruppe",
+        "content_option": "Wählen Sie Ihr Trainingsmodell:",
+        "develop": "Individuelle Entwicklung durch ecoTRN",
+        "license": "Vorhandenes Modul lizenzieren",
+        "results": "Kostenvergleich",
+        "total_classic": "Gesamtkosten Präsenztraining",
+        "total_vr": "Gesamtkosten VR-Training",
+        "savings": "Ersparnis über {years} Jahre",
+        "cost_per_learner": "Kosten pro Lernenden (gesamt)",
+        "npv_label": "Barwert (NPV) des VR-Modells",
+        "payback_label": "Break-even im Jahr",
+        "chart_title1": "Kumulative Trainingskosten (ROI-Sicht)",
+        "chart_title2": "Jährlicher Kostenvergleich – {anzahl} Lernende/Jahr",
+        "footer": "Diese Analyse basiert auf Annahmen typischer Trainingskosten und simuliert ROI bei Skalierung."
+    }
+}
 
 T = text[language]
 
