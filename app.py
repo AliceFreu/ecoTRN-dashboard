@@ -135,7 +135,7 @@ st.markdown("---")
 
 # === Sidebar inputs ===
 st.sidebar.header(T["inputs"])
-num_learners = st.sidebar.number_input(T["participants"], min_value=1, value=100)
+num_learners = st.sidebar.number_input(T["participants"], min_value=1, value=300)
 training_days = st.sidebar.number_input(T["days"], min_value=1, value=2)
 trainer_rate = st.sidebar.number_input(T["trainer"], min_value=0.0, value=300.0)
 room_cost = st.sidebar.number_input(T["room"], min_value=0.0, value=200.0)
