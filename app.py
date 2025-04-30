@@ -20,7 +20,7 @@ This tool allows you to compare the cost of traditional in-person training with 
 
 Please start by selecting one of the following options:
 
-### 🎁 License Only
+### 📦 License Only
 - Access to **existing VR modules** (e.g., solar installation)
 - **Annual license per headset: €300**
 - **No development or update costs**
@@ -72,6 +72,8 @@ discount_rate = 0.05
 
 # === Page title and intro ===
 st.title(T["title"])
+intro_paragraph = T["intro"].split("Please start by selecting")[0]
+st.markdown(intro_paragraph)
 content_mode = st.sidebar.radio(T["content_option"], [T["develop"], T["license"]])
 col1, col2 = st.columns(2)
 with col1:
