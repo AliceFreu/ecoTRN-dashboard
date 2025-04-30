@@ -13,9 +13,9 @@ language = st.sidebar.selectbox("Language", ["English", "Deutsch"])
 text = {
     "English": {
         "title": "ecoTRN Scenario Analysis",
-        "intro": "Welcome to our training cost scenario analysis! 👋
+        "intro": """Welcome to our training cost scenario analysis! 👋
 
-This tool allows you to compare the cost of traditional in-person training with our VR-based solution...",
+This tool allows you to compare the cost of traditional in-person training with our VR-based solution..."""",
         "inputs": "Your Inputs",
         "participants": "Number of learners per year",
         "days": "Number of training days (traditional)",
@@ -43,9 +43,9 @@ This tool allows you to compare the cost of traditional in-person training with 
     },
     "Deutsch": {
         "title": "ecoTRN Szenario-Analyse",
-        "intro": "Willkommen bei unserer Kostenanalyse! 👋
+        "intro": """Willkommen bei unserer Kostenanalyse! 👋
 
-Dieses Tool hilft Ihnen, die Kosten von Präsenztrainings mit unserer VR-basierten Lösung für Techniker:innen zu vergleichen...",
+Dieses Tool hilft Ihnen, die Kosten von Präsenztrainings mit unserer VR-basierten Lösung für Techniker:innen zu vergleichen..."""",
         "inputs": "Ihre Eingaben",
         "participants": "Anzahl der Lernenden pro Jahr",
         "days": "Anzahl der Trainingstage (klassisch)",
@@ -85,7 +85,7 @@ discount_rate = 0.05
 
 # === Page title and intro ===
 st.title(T["title"])
-intro_paragraph = T["intro"].split("Please start by selecting")[0] if language == "English" else T["intro"].split("Bitte wählen Sie zu Beginn")[0]
+intro_paragraph = T["intro"].split("Please start by selecting")[0] if language == "English" and "Please start by selecting" in T["intro"] else T["intro"].split("Bitte wählen Sie zu Beginn")[0] if language == "Deutsch" and "Bitte wählen Sie zu Beginn" in T["intro"] else T["intro"]
 st.markdown(intro_paragraph)
 
 content_mode = st.sidebar.radio(T["content_option"], [T["develop"], T["license"]])
