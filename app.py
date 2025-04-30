@@ -20,7 +20,7 @@ This tool allows you to compare the cost of traditional in-person training with 
 
 Please start by selecting one of the following options:
 
-### 📦 License Only
+### 🎁 License Only
 - Access to **existing VR modules** (e.g., solar installation)
 - **Annual license per headset: €300**
 - **No development or update costs**
