@@ -18,13 +18,20 @@ Welcome to our training cost scenario analysis! 👋
 
 This tool allows you to compare the cost of traditional in-person training with our VR-based solution for renewable energy technicians.
 
-Before entering training-specific parameters, please choose whether you:
-- **Only license** existing ecoTRN training modules (e.g. pre-developed solar content), or
-- **Commission us to develop** a customized VR module for your needs.
+Please start by selecting one of the following options:
 
-Depending on your choice, we apply the following assumptions:
-- **License Only:** Annual license per headset = €300, no development or update costs.
-- **Custom Development:** One-time content development = €45,000, annual update = €10,000, license = €200 per headset/year.
+### 📦 License Only
+- Access to **existing VR modules** (e.g., solar installation)
+- **Annual license per headset: €300**
+- **No development or update costs**
+
+### 🛠️ Custom Development
+- We develop a **tailored VR training module** for your needs
+- **One-time content development: €45,000**
+- **Annual update & maintenance: €10,000**
+- **Annual license per headset: €200**
+
+This selection will influence the calculation below.
 """,
         "inputs": "Your Inputs",
         "participants": "Number of learners per year",
