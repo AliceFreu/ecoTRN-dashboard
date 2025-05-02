@@ -108,7 +108,7 @@ vr_update_cost = 10000
 discount_rate = 0.05
 
 # === Page title and intro ===
-st.image("ecotrn logo green.png", width=180)
+st.image("ecoTRN-logo.svg", width=180)
 if language == "English":
     st.title("Discover Your ecoTRN Advantage 💡")
     st.subheader("Calculate your cost savings with immersive VR-based training")
