@@ -110,7 +110,7 @@ discount_rate = 0.05
 # === Page title and intro ===
 st.image("ecotrn_logo_green.png", width=180)
 if language == "English":
-    st.title("Discover Your ecoTRN Advantage 💡")
+    st.title("Discover your ecoTRN advantage 💡")
     st.subheader("Calculate your cost savings with immersive VR-based training")
 else:
     st.title("ecoTRN – Ihr Vorteil auf einen Blick 💡")
