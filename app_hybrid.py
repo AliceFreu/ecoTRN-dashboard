@@ -140,7 +140,10 @@ with col2:
 
 st.markdown("---")
 
-# === Sidebar inputs ===
+# === Tabs ===
+tab_inputs, tab_results, tab_charts = st.tabs(["🔧 Inputs", "📊 Results", "📈 Charts"])
+
+with tab_inputs:
 vr_share = st.sidebar.slider("Share of training replaced by VR (%)", 0, 100, 40)
 st.sidebar.header(T["inputs"])
 num_learners = st.sidebar.number_input(T["participants"], min_value=1, value=250)
@@ -190,6 +193,8 @@ vr_cumulative = [sum(vr_annual_series[:i + 1]) for i in range(evaluation_years)]
 npv_vr = sum(v / (1 + discount_rate) ** (i + 1) for i, v in enumerate(vr_annual_series))
 payback_year = next((i + 1 for i, (vc, tc) in enumerate(zip(vr_cumulative, classic_cumulative)) if vc < tc), None)
 
+with tab_results:
+
 # === Results ===
 st.header(T["results"])
 
@@ -218,6 +223,8 @@ st.markdown(f"- VR: {total_vr / (num_learners * evaluation_years):,.0f}" + (" EU
 st.markdown(f"**{T['npv_label']}:** {npv_vr:,.0f}" + (" EUR" if language == "English" else " €"))
 if payback_year:
     st.markdown(f"**{T['payback_label']}:** Year {payback_year}" if language == "English" else f"**{T['payback_label']}:** Jahr {payback_year}")
+
+with tab_charts:
 
 # === Plot 1: Cumulative cost comparison ===
 years = list(range(1, evaluation_years + 1))
