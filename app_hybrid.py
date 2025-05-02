@@ -108,13 +108,14 @@ vr_update_cost = 10000
 discount_rate = 0.05
 
 # === Page title and intro ===
-st.image("ecoTRN-logo.svg", width=180)
-if language == "English":
-    st.title("Discover Your ecoTRN Advantage 💡")
-    st.subheader("Calculate your cost savings with immersive VR-based training")
-else:
-    st.title("ecoTRN – Ihr Vorteil auf einen Blick 💡")
-    st.subheader("Berechnen Sie Ihre Trainingskosten mit hybriden VR-Lösungen")
+with st.container():
+    st.markdown(f"""
+        <div style='background-color: #abebd2; padding: 1.5rem; border-radius: 10px; text-align: center;'>
+            <img src='https://raw.githubusercontent.com/AliceFreu/ecoTRN-dashboard/1514e2bb1063537ebe2525f5543c8948b7a154a1/ecoTRN-logo.svg' width='140'>
+            <h1 style='margin-bottom: 0.5rem;'>💡 {"Discover Your ecoTRN Advantage" if language == "English" else "ecoTRN – Ihr Vorteil auf einen Blick"}</h1>
+            <h4 style='margin-top: 0rem;'>{"Calculate your cost savings with immersive VR-based training" if language == "English" else "Berechnen Sie Ihre Trainingskosten mit hybriden VR-Lösungen"}</h4>
+        </div>
+    """, unsafe_allow_html=True)
 
 intro_paragraph = T["intro"].split("Please start by selecting")[0] if language == "English" and "Please start by selecting" in T["intro"] else T["intro"].split("Bitte wählen Sie zu Beginn")[0] if language == "Deutsch" and "Bitte wählen Sie zu Beginn" in T["intro"] else T["intro"]
 st.markdown(intro_paragraph)
