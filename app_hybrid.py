@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-st.set_page_config(page_title="ecoTRN Scenario Analysis", layout="centered")
+st.set_page_config(page_title="ecoTRN Cost Calculator", page_icon="ecotrn-favicon.png", layout="centered")
 
 # === Language selection ===
 language = st.sidebar.selectbox("Language", ["English", "Deutsch"])
