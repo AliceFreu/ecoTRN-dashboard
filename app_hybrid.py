@@ -110,7 +110,7 @@ discount_rate = 0.05
 # === Page title and intro ===
 with st.container():
     st.markdown(f"""
-        <div style='background-color: rgba(171, 235, 210, 0.75); padding: 2rem; margin-left: -3.5rem; margin-right: -3.5rem; margin-top: -2rem; border-radius: 0 0 12px 12px; text-align: center;'>
+        <div style='background-color: rgba(171, 235, 210, 0.75); padding: 1rem; margin-left: -3.5rem; margin-right: -3.5rem; margin-top: -2rem; border-radius: 0 0 12px 12px; text-align: center;'>
             <img src='https://raw.githubusercontent.com/AliceFreu/ecoTRN-dashboard/1514e2bb1063537ebe2525f5543c8948b7a154a1/ecoTRN-logo.svg' width='180'>
             <h1 style='margin-bottom: 0.5rem;'>💡 {"Discover Your ecoTRN Advantage" if language == "English" else "ecoTRN – Ihr Vorteil auf einen Blick"}</h1>
             <h4 style='margin-top: 0rem;'>{ "Calculate your cost savings with immersive VR-based training" if language == "English" else "Berechnen Sie Ihre Trainingskosten mit hybriden VR-Lösungen" }</h4>
