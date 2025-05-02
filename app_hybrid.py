@@ -140,21 +140,7 @@ with col2:
 
 st.markdown("---")
 
-# === Tabs ===
-tab_inputs, tab_results, tab_charts = st.tabs(["🔧 Inputs", "📊 Results", "📈 Charts"])
-
-with tab_inputs:
-    st.sidebar.header(T["inputs"])
-    num_learners = st.sidebar.number_input(T["participants"], min_value=1, value=300)
-    training_days = st.sidebar.number_input(T["days"], min_value=1, value=2)
-    trainer_rate = st.sidebar.number_input(T["trainer"], min_value=0.0, value=300.0)
-    room_cost = st.sidebar.number_input(T["room"], min_value=0.0, value=200.0)
-    travel_cost = st.sidebar.number_input(T["travel"], min_value=0.0, value=100.0)
-    headset_cost = st.sidebar.number_input(T["hardware"], min_value=0.0, value=500.0)
-    learners_per_headset = st.sidebar.number_input(T["utilization"], min_value=1, value=5)
-    consumables = st.sidebar.number_input(T["consumables"], min_value=0.0, value=70.0)
-    evaluation_years = st.sidebar.number_input(T["years"], min_value=1, value=5)
-    group_size = st.sidebar.number_input(T["group_size"], min_value=1, value=15)
+# === Sidebar inputs ===
 vr_share = st.sidebar.slider("Share of training replaced by VR (%)", 0, 100, 40)
 st.sidebar.header(T["inputs"])
 num_learners = st.sidebar.number_input(T["participants"], min_value=1, value=100)
@@ -204,34 +190,6 @@ vr_cumulative = [sum(vr_annual_series[:i + 1]) for i in range(evaluation_years)]
 npv_vr = sum(v / (1 + discount_rate) ** (i + 1) for i, v in enumerate(vr_annual_series))
 payback_year = next((i + 1 for i, (vc, tc) in enumerate(zip(vr_cumulative, classic_cumulative)) if vc < tc), None)
 
-with tab_results:
-    st.header(T["results"])
-    st.markdown(f"**🔁 Share of training replaced by VR: {vr_share}%**")
-
-    if vr_share == 0:
-        st.info("This scenario models 100% traditional training.")
-    elif vr_share == 100:
-        st.info("This scenario models 100% VR-based training.")
-    else:
-        st.info("This scenario models a hybrid training approach.")
-
-    total_classic = classic_cumulative[-1]
-    total_vr = vr_cumulative[-1]
-    savings = total_classic - total_vr
-
-    col1, col2, col3 = st.columns(3)
-    col1.metric(T["total_classic"], f"{total_classic:,.0f}" + (" EUR" if language == "English" else " €"))
-    col2.metric(T["total_vr"], f"{total_vr:,.0f}" + (" EUR" if language == "English" else " €"))
-    col3.metric(T["savings"].format(years=evaluation_years), f"{savings:,.0f}" + (" EUR" if language == "English" else " €"), delta=f"{savings / total_classic * 100:.1f}%")
-
-    st.markdown(f"**{T['cost_per_learner']}:**")
-    st.markdown(f"- Traditional: {total_classic / (num_learners * evaluation_years):,.0f}" + (" EUR" if language == "English" else " €"))
-    st.markdown(f"- VR: {total_vr / (num_learners * evaluation_years):,.0f}" + (" EUR" if language == "English" else " €"))
-
-    st.markdown(f"**{T['npv_label']}:** {npv_vr:,.0f}" + (" EUR" if language == "English" else " €"))
-    if payback_year:
-        st.markdown(f"**{T['payback_label']}:** Year {payback_year}" if language == "English" else f"**{T['payback_label']}:** Jahr {payback_year}")
-
 # === Results ===
 st.header(T["results"])
 
@@ -261,29 +219,6 @@ st.markdown(f"**{T['npv_label']}:** {npv_vr:,.0f}" + (" EUR" if language == "Eng
 if payback_year:
     st.markdown(f"**{T['payback_label']}:** Year {payback_year}" if language == "English" else f"**{T['payback_label']}:** Jahr {payback_year}")
 
-with tab_charts:
-    years = list(range(1, evaluation_years + 1))
-    fig1, ax1 = plt.subplots()
-    ax1.plot(years, vr_cumulative, label='Cumulative VR Cost (€)', color='green')
-    ax1.plot(years, classic_cumulative, label='Cumulative Traditional Cost (€)', color='blue')
-    ax1.set_xlabel('Year' if language == "English" else 'Jahr')
-    ax1.set_ylabel('Cumulative Cost (€)' if language == "English" else 'Kumulative Kosten (€)')
-    ax1.set_title(T["chart_title1"] + f" ({vr_share}% VR)")
-    ax1.legend()
-    st.pyplot(fig1)
-
-    x = np.arange(evaluation_years)
-    bar_width = 0.4
-    fig2, ax2 = plt.subplots()
-    ax2.bar(x, [classic_annual_cost] * evaluation_years, label='Traditional Costs (€)', color='blue', width=bar_width)
-    ax2.bar(x + bar_width, vr_annual_series, label='VR Costs (€)', color='green', width=bar_width)
-    ax2.set_xticks(x + bar_width / 2)
-    ax2.set_xticklabels([str(y) for y in years])
-    ax2.set_xlabel('Year' if language == "English" else 'Jahr')
-    ax2.set_ylabel('Cost (€)' if language == "English" else 'Kosten (€)')
-    ax2.set_title(T["chart_title2"].format(anzahl=num_learners) + f" ({vr_share}% VR)")
-    ax2.legend()
-    st.pyplot(fig2)
 # === Plot 1: Cumulative cost comparison ===
 years = list(range(1, evaluation_years + 1))
 fig1, ax1 = plt.subplots()
