@@ -173,7 +173,8 @@ headsets_needed = math.ceil(learners_using_vr / learners_per_headset)
 total_headset_cost = headset_cost * headsets_needed
 annual_headset_cost = total_headset_cost / headset_lifespan
 vr_license_cost_total = vr_license * headsets_needed
-vr_annual = annual_headset_cost + vr_license_cost_total + vr_update
+vr_update_scaled = vr_update * (vr_share / 100)
+vr_annual = annual_headset_cost + vr_license_cost_total + vr_update_scaled
 
 vr_annual_series = [vr_content + vr_annual] + [vr_annual] * (evaluation_years - 1)
 vr_cumulative = [sum(vr_annual_series[:i + 1]) for i in range(evaluation_years)]
