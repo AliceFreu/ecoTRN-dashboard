@@ -118,6 +118,7 @@ with st.container():
     """, unsafe_allow_html=True)
 
 intro_paragraph = T["intro"].split("Please start by selecting")[0] if language == "English" and "Please start by selecting" in T["intro"] else T["intro"].split("Bitte wählen Sie zu Beginn")[0] if language == "Deutsch" and "Bitte wählen Sie zu Beginn" in T["intro"] else T["intro"]
+st.markdown("<div style='margin-top: 3rem'></div>", unsafe_allow_html=True)
 st.markdown(intro_paragraph)
 
 content_mode = st.sidebar.radio(T["content_option"], [T["develop"], T["license"]])
